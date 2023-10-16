@@ -60,8 +60,7 @@ class Vector3:
         
     __neg__ = lambda self: Vector3(-self.x, -self.y, -self.z)
         
-    def lerp(self, a, n):
-        return a +
+    lerp = lambda self, a, n: Vector3((self.x + (a.x - self.x)) * n, (self.y + (a.y - self.y)) * n, (self.z + (a.z - self.z)) * n)
         
     back = lambda self : Vector3(0, 0, -1)
         
@@ -84,9 +83,3 @@ class Color:
         self.r = clamp(round(255 * r), 0, 255)
         self.g = clamp(round(255 * g), 0, 255)
         self.b = clamp(round(255 * b), 0, 255)
-
-a = Vector3(5, 6, 7)
-b = Vector3(1, 4, 5)
-
-print(a % b)
-print(a >= b)
