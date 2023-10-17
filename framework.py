@@ -18,6 +18,10 @@ class Vector3:
     
     __call__ = lambda self : (self.x, self.y, self.z)
     
+    __int__ = lambda self : Vector3(int(self.x), int(self.y), int(self.z))
+    __float__ = lambda self : Vector3(float(self.x), float(self.y), float(self.z))
+    __hex__ = lambda self : Vector3(hex(self.x), hex(self.y), hex(self.z))
+    
     def __add__(self, a):
         if type(a) == Vector3:
             return Vector3(self.x + a.x, self.y + a.y, self.z + a.z)
@@ -85,8 +89,24 @@ class Vector3:
     max = lambda self: max(max(self.x, self.y), self.z)
     min = lambda self: min(min(self.x, self.y), self.z)
     
+    
+    def setPos(self, v):
+        if type(v) == Vector3:
+            self.x = v.x
+            self.y = v.y
+            self.z = v.z
+        elif type(v) in [int, float]:
+            self.x = self.y = self.z = v
+        else:
+            raise Exception(f"Can only set to int, float, or Vector3. Not {type(v).__name__}")
     lerp = lambda self, a, n: Vector3((self.x + (a.x - self.x)) * n, (self.y + (a.y - self.y)) * n, (self.z + (a.z - self.z)) * n)
         
+    magnitude = lambda self : (self.x * self.x + self.y * self.y + self.z * self.z)**.5    
+    sqrMagnitude = lambda self : self.magnitude() * self.magnitude()
+    def normalize(self):
+        mag = self.magnitude()
+        return (self.x / mag, self.y / mag, self.z / mag)
+    
     down = lambda self : Vector3(0, -1, 0)
     up = lambda self : Vector3(0, 1, 0)
     forward = lambda self : Vector3(0, 0, 1)
@@ -94,6 +114,8 @@ class Vector3:
     left = lambda self : Vector3(-1, 0, 0)
     right = lambda self : Vector3(1, 0, 0)
     zero = lambda self : Vector3(0, 0, 0)
+    
+    this = lambda self : [self.x, self.y, self.z]
     
     negativeInfinity = lambda self : Vector3(-inf, -inf, -inf)
     positiveInfinity = lambda self : Vector3(inf, inf, inf)
@@ -113,3 +135,9 @@ class Color:
         self.r = clamp(round(255 * r), 0, 255)
         self.g = clamp(round(255 * g), 0, 255)
         self.b = clamp(round(255 * b), 0, 255)
+        
+    def fromHex(self, hex):
+        if hex[0] == "#":
+            print(int(hex[1:3], 16))
+            print(int(hex[4:6], 16))
+            print(int(hex[7:9], 16))
