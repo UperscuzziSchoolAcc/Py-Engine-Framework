@@ -1,4 +1,5 @@
 import math
+from random import randint as r
 
 inf = float("inf")
 
@@ -138,6 +139,41 @@ class Color:
         
     def fromHex(self, hex):
         if hex[0] == "#":
-            print(int(hex[1:3], 16))
-            print(int(hex[4:6], 16))
-            print(int(hex[7:9], 16))
+            self.r = int(hex[1:3], 16)
+            self.g = int(hex[3:5], 16)
+            self.b = int(hex[5:8], 16)
+    
+    def toHex(self, upper = True):
+        rh = "{:02x}".format(self.r)
+        gh = "{:02x}".format(self.g)
+        bh = "{:02x}".format(self.b)
+        if upper:
+            return f"#{rh}{gh}{bh}".upper()
+        else:
+            return f"#{rh}{gh}{bh}"
+    
+    def fromEnum(self, color):
+        color = color.lower()
+        if color == "red":
+            self.fromHex("#FF0000")
+        elif color == "green":
+            self.fromHex("#00FF00")
+        elif color == "blue":
+            self.fromHex("#0000FF")
+        elif color == "white":
+            self.fromHex("#FFFFFF")
+        elif color == "black":
+            self.fromHex("#000000")
+        elif color == "pink":
+            self.fromHex("#FFC0CB")
+    
+    def mono(self):
+        a = (self.r + self.g + self.b)/3
+        return Color(a, a, a)
+        
+    invserse = lambda self : Color(255 - self.r, 255 - self.g, 255 - self.b)
+    random = lambda self : Color(r(0, 255), r(0, 255), r(0, 255))
+        
+    this = lambda self : [self.r, self.g, self.b]
+    max = lambda self: max(max(self.r, self.g), self.b)
+    min = lambda self: min(min(self.r, self.g), self.b)
